@@ -61,12 +61,13 @@ $stmt->close();
 	</form>
 </div>
 
+<!-- This deletes the actor -->
 
 <div>
 	<form method="post" action="deleteActor.php">
 		<fieldset>
 			<legend>Delete Actor</legend>
-				<select name="Actor Info">
+				<select name="actorInfo">
 					<?php
 					if(!($stmt = $mysqli->prepare("SELECT actor_id, fname, lname FROM actor"))){
 						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
@@ -78,7 +79,7 @@ $stmt->close();
 						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
 					}
 					while($stmt->fetch()){
-					 echo '<option value=" '. $id . ' "> ' . $id . ' ' . $afname . ' ' . $alname .   '</option>\n';
+					 echo '<option value=" ' . $id . ' "> ' . $id . ' ' . $afname . ' ' . $alname .   '</option>\n';
 					}
 					$stmt->close();
 
@@ -90,7 +91,7 @@ $stmt->close();
 	</form>
 </div>
 
-
+<!-- This shows the spouse info -->
 
 <p> Spouse Information:</p>
 
@@ -143,7 +144,35 @@ $stmt->close();
 	</form>
 </div>
 
+<!-- This deletes the spouse -->
 
+<div>
+	<form method="post" action="deleteSpouse.php">
+		<fieldset>
+			<legend>Delete Spouse</legend>
+				<select name="spouseInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT spouse_id, fname, lname FROM spouse"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($sid, $sfname, $slname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $sid . ' "> ' . $sid . ' ' . $sfname . ' ' . $slname .   '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Delete Spouse" />
+	</form>
+</div>
 
 <p> Director Information:</p>
 
@@ -195,6 +224,40 @@ $stmt->close();
 		<p><input type="submit" /></p>
 	</form>
 </div>
+
+
+<!-- This deletes the Director -->
+
+<div>
+	<form method="post" action="deleteDirector.php">
+		<fieldset>
+			<legend>Delete Director</legend>
+				<select name="directorInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT director_id, fname, lname FROM director"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($did, $dfname, $dlname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $did . ' "> ' . $did . ' ' . $dfname . ' ' . $dlname .   '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Delete Director" />
+	</form>
+</div>
+
+
+
 
 <!--Film Information-->
 

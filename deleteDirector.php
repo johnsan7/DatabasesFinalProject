@@ -1,4 +1,4 @@
-<!--This deletes actors from the film table-->
+<!--This deletes directors from the director table-->
 <?php
 //Turn on error reporting
 ini_set('display_errors', 'On');
@@ -8,17 +8,17 @@ if(!$mysqli || $mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 	}
 	
-if(!($stmt = $mysqli->prepare("DELETE FROM actor WHERE actor_id=?"))){
+if(!($stmt = $mysqli->prepare("DELETE FROM director WHERE director_id=?"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
 
-if(!($stmt->bind_param("i",$_POST['actorInfo']))){
+if(!($stmt->bind_param("i",$_POST['directorInfo']))){
 	echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 }
 if(!$stmt->execute()){
 	echo "Execute failed: "  . $stmt->errno . " " . $stmt->error;
 } else {
-	echo "Deleted " . $stmt->affected_rows . " row from actor.";
+	echo "Deleted " . $stmt->affected_rows . " row from director.";
 }
 ?>
 
