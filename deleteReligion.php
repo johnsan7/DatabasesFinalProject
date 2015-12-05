@@ -1,4 +1,4 @@
-<!--This adds religions to the religion table-->
+<!--This deletes religions from the religion table-->
 <?php
 //Turn on error reporting
 ini_set('display_errors', 'On');
@@ -8,19 +8,17 @@ if(!$mysqli || $mysqli->connect_errno){
 	echo "Connection error " . $mysqli->connect_errno . " " . $mysqli->connect_error;
 	}
 	
-if(!($stmt = $mysqli->prepare("INSERT INTO religion (name, foundingDate) VALUES (?,?)"))){
+if(!($stmt = $mysqli->prepare("DELETE FROM religion WHERE religion_id=?"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
 
-$correctedDate = date('Y-m-d', strtotime($_POST['rfdate']));
-
-if(!($stmt->bind_param("ss",$_POST['rname'],$correctedDate))){
+if(!($stmt->bind_param("i",$_POST['religionInfo']))){
 	echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 }
 if(!$stmt->execute()){
 	echo "Execute failed: "  . $stmt->errno . " " . $stmt->error;
 } else {
-	echo "Added " . $stmt->affected_rows . " rows to actor.";
+	echo "Deleted " . $stmt->affected_rows . " row from religion.";
 }
 ?>
 

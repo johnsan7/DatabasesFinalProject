@@ -313,6 +313,36 @@ $stmt->close();
 </div>
 
 
+<!-- This deletes the Film -->
+
+<div>
+	<form method="post" action="deleteFilm.php">
+		<fieldset>
+			<legend>Delete Film</legend>
+				<select name="filmInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT film_id, title FROM film"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($fid, $ftitle)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $fid . ' "> ' . $fid . ' ' . $ftitle .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Delete Film" />
+	</form>
+</div>
+
 
 
 
@@ -348,21 +378,52 @@ $stmt->close();
 	</table>
 </div>
 
-<!--Form to add films to film table-->
+<!--Form to add religions to religion table-->
 
 <div>
 	<form method="post" action="addreligion.php"> 
 
 		<fieldset>
 			<legend>Name and Founding Date</legend>
-			<p>Film Title: <input type="text" name="rname" /></p>
-			<p>Budget: <input type="date" name="rfdate" /></p>
+			<p>Religion Name: <input type="text" name="rname" /></p>
+			<p>Founding Date: <input type="date" name="rfdate" /></p>
 		</fieldset>
 		
 		<p><input type="submit" /></p>
 	</form>
 </div>
 
+
+
+<!-- This deletes the Religion -->
+
+<div>
+	<form method="post" action="deleteReligion.php">
+		<fieldset>
+			<legend>Delete Religion</legend>
+				<select name="religionInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT religion_id, name FROM religion"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($rid, $rname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $rid . ' "> ' . $rid . ' ' . $rname .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Delete Religion" />
+	</form>
+</div>
 
 
 
