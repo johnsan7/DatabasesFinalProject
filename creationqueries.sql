@@ -43,8 +43,8 @@ CREATE TABLE religion(
 )ENGINE=InnoDB
 
 CREATE TABLE actor_marriage(
-	aid int(11) unsigned NOT NULL,
-	sid int(11) unsigned NOT NULL, 
+	aid int(11) unsigned UNIQUE NOT NULL,
+	sid int(11) unsigned UNIQUE NOT NULL, 
 	PRIMARY KEY (aid,sid),
 	CONSTRAINT FOREIGN KEY (aid) REFERENCES actor (actor_id) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (sid) REFERENCES spouse (spouse_id) ON DELETE CASCADE 
