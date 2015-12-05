@@ -61,6 +61,37 @@ $stmt->close();
 	</form>
 </div>
 
+
+<div>
+	<form method="post" action="deleteActor.php">
+		<fieldset>
+			<legend>Delete Actor</legend>
+				<select name="Actor Info">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT actor_id, fname, lname FROM actor"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($id, $afname, $alname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" '. $id . ' "> ' . $id . ' ' . $afname . ' ' . $alname .   '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Delete Actor" />
+	</form>
+</div>
+
+
+
 <p> Spouse Information:</p>
 
 <div>
