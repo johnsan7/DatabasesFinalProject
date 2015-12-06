@@ -12,7 +12,10 @@ if($mysqli->connect_errno){
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
+<link rel="stylesheet" type="text/css" href="style.css">
 <body>
+
+
 <div>
 	<table>
 		<tr>
@@ -57,7 +60,7 @@ $stmt->close();
 			<p>Birthdate: <input type="date" name="bdate" /></p>
 		</fieldset>
 
-		<p><input type="submit" /></p>
+		<p><input type="submit" value="Add Actor"/></p>
 	</form>
 </div>
 
@@ -90,6 +93,10 @@ $stmt->close();
 		<input type="submit" value="Delete Actor" />
 	</form>
 </div>
+
+<br>
+
+<div class="separatorDiv">" "</div>
 
 <!-- This shows the spouse info -->
 
@@ -140,7 +147,7 @@ $stmt->close();
 			<p>Birthdate: <input type="date" name="bdate" /></p>
 		</fieldset>
 
-		<p><input type="submit" /></p>
+		<p><input type="submit" value="Add Spouse" /></p>
 	</form>
 </div>
 
@@ -173,6 +180,10 @@ $stmt->close();
 		<input type="submit" value="Delete Spouse" />
 	</form>
 </div>
+
+<br>
+
+<div class="separatorDiv">" "</div>
 
 <p> Director Information:</p>
 
@@ -221,7 +232,7 @@ $stmt->close();
 			<p>Birthdate: <input type="date" name="bdate" /></p>
 		</fieldset>
 
-		<p><input type="submit" /></p>
+		<p><input type="submit" value="Add Director" /></p>
 	</form>
 </div>
 
@@ -257,7 +268,10 @@ $stmt->close();
 </div>
 
 
+<br>
 
+<div class="separatorDiv">" "</div>
+	
 
 <!--Film Information-->
 
@@ -308,7 +322,7 @@ $stmt->close();
 			<p>Release Date: <input type="date" name="freldate" /></p>
 		</fieldset>
 
-		<p><input type="submit" /></p>
+		<p><input type="submit" value="Add Film" /></p>
 	</form>
 </div>
 
@@ -343,6 +357,9 @@ $stmt->close();
 	</form>
 </div>
 
+<br>
+
+<div class="separatorDiv">" "</div>
 
 
 
@@ -389,7 +406,7 @@ $stmt->close();
 			<p>Founding Date: <input type="date" name="rfdate" /></p>
 		</fieldset>
 		
-		<p><input type="submit" /></p>
+		<p><input type="submit"  value="Add Religion" /></p>
 	</form>
 </div>
 
@@ -425,6 +442,8 @@ $stmt->close();
 	</form>
 
 <br>
+
+<div class="separatorDiv">" "</div>
 
 
 <!-- This draws the current film/actor relationships in a table-->
@@ -509,9 +528,69 @@ $stmt->close();
 				</select>
 		</fieldset>
 		
-		<input type="submit" value="Actor Film Pair" />
+		<input type="submit" value="Add Actor to Film" />
 	</form>
 </div>
+
+
+<br>
+<!--Remove film actor relationship-->
+
+<p>Remove Actor from film</p>
+<div>
+	<form method="post" action="remove_actor_film.php">
+		<fieldset>
+			<legend>Actor to remove from film</legend>
+				<select name="actorFilmRemoveInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT actor_id, fname, lname FROM actor"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($afrid, $arfname, $arlname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $afrid . ' "> ' . $arfrid . ' ' . $arfname . ' ' . $arlname .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+				<fieldset>
+			<legend>Film to remove actor from </legend>
+				<select name="filmRemoveActorInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT film_id, title FROM film"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($fraid, $fratitle)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $fraid . ' "> ' . $fraid . ' ' . $fratitle .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		
+		<input type="submit" value="Remove Actor from Film" />
+	</form>
+</div>
+
+<br>
+
+<div class="separatorDiv">" "</div>
 
 <!-- This draws the current film_director relationships in a table-->
 <br>
@@ -597,11 +676,54 @@ $stmt->close();
 				</select>
 		</fieldset>
 		
-		<input type="submit" value="Director Film Pair" />
+		<input type="submit" value="Add Director to film" />
 	</form>
 </div>
 
 <br>
+
+
+
+<br>
+
+<!--Remove director film relationship-->
+
+<p>Remove Director from film</p>
+
+<div>
+	<form method="post" action="remove_director_film.php">
+		<fieldset>
+			<legend>Film to remove director from </legend>
+				<select name="filmRemoveDirectorInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT film_id, title FROM film"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($frdid, $frdtitle)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $frdid . ' "> ' . $frdid . ' ' . $frdtitle .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		
+		<input type="submit" value="Remove Director from Film" />
+	</form>
+</div>
+
+<br>
+
+<div class="separatorDiv">" "</div>
+
+
 
 <!-- This draws the current actor marriage relationships in a table-->
 <br>
@@ -609,7 +731,7 @@ $stmt->close();
 <div>
 	<table>
 		<tr>
-			<td>Actors and Spouses</td>
+			<td>Marriages between Actors and Spouses</td>
 		</tr>
 		<tr>
 			<th>Actor Name</th>
@@ -687,9 +809,52 @@ $stmt->close();
 				</select>
 		</fieldset>
 		
-		<input type="submit" value="Actor Marriage" />
+		<input type="submit" value="Add Marriage" />
 	</form>
 </div>
+
+<br>
+
+<p>Remove Marriage relationship</p>
+
+<div>
+	<form method="post" action="remove_marriage.php">
+		<fieldset>
+			<legend>Actor paired with marriage to dissolve</legend>
+				<select name="actorDivorceInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT actor_id, fname, lname FROM actor"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($rmaid, $rmafname, $rmalname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $rmaid . ' "> ' . $rmaid . ' ' . $rmafname . ' ' . $rmalname .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		
+		<input type="submit" value="Dissolve Marriage" />
+	</form>
+</div>
+
+<br>
+
+<div class="separatorDiv">" "</div>
+
+
+
+<br>
+
+<div class="separatorDiv">" "</div>
 
 
 <!-- This draws the current actor religion relationships in a table-->
@@ -777,10 +942,48 @@ $stmt->close();
 				</select>
 		</fieldset>
 		
-		<input type="submit" value="Actor Religion" />
+		<input type="submit" value="Assign Actor Religion" />
 	</form>
 </div>
 
+<br>
+
+<!-- This removes Actor religion -->
+
+<p>Remove Actor religion</p>
+
+<div>
+	<form method="post" action="remove_actor_religion.php">
+		<fieldset>
+			<legend>Actor to drop religion for</legend>
+				<select name="actorReligDropInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT actor_id, fname, lname FROM actor"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($arraid, $arrfname, $arrlname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $arraid . ' "> ' . $arraid . ' ' . $arrfname . ' ' . $arrlname .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		
+		<input type="submit" value="Remove Religion" />
+	</form>
+</div>
+
+<br>
+
+<div class="separatorDiv">" "</div>
 
 <!-- This draws the current director religion relationships in a table-->
 <br>
@@ -867,11 +1070,48 @@ $stmt->close();
 				</select>
 		</fieldset>
 		
-		<input type="submit" value="Director Religion" />
+		<input type="submit" value="Assign Director Religion" />
 	</form>
 </div>
 
+<br>
 
+<!-- This removes Director religion -->
+
+<p>Remove Director religion</p>
+
+<div>
+	<form method="post" action="remove_director_religion.php">
+		<fieldset>
+			<legend>Director to remove religion from</legend>
+				<select name="directorReligionDeleteInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT director_id, fname, lname FROM director"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($rrdid, $rrdfname, $rrdlname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $rrdid . ' "> ' . $rrdid . ' ' . $rrdfname . ' ' . $rrdlname .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		
+		<input type="submit" value="Remove Religion" />
+	</form>
+</div>
+
+<br>
+
+<div class="separatorDiv">" "</div>
 
 <!-- This draws the current spouse religion relationships in a table-->
 <br>
@@ -958,12 +1198,65 @@ $stmt->close();
 				</select>
 		</fieldset>
 		
-		<input type="submit" value="Spouse Religion" />
+		<input type="submit" value="Assign Spouse Religion" />
 	</form>
 </div>
 
 <br>
 
+
+
+
+<!-- This removes Spouse religion -->
+
+<p>Remove Spouse religion</p>
+
+<div>
+	<form method="post" action="remove_spouse_religion.php">
+		<fieldset>
+			<legend>Spouse to remove religion from</legend>
+				<select name="spouseRemoveReligionInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT spouse_id, fname, lname FROM spouse"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($srrid, $srrfname, $srrlname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $srrid . ' "> ' . $srrid . ' ' . $srrfname . $srrlname .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		
+		<input type="submit" value="Remove Religion" />
+	</form>
+</div>
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="separatorDiv">" "</div>
 
 <!--This filter will show movies with a particular actor-->
 
@@ -992,15 +1285,18 @@ $stmt->close();
 					?>
 				</select>
 		</fieldset>
-		<input type="submit" value="submit" />
+		<input type="submit" value="Show Films for Actor" />
 	</form>
 </div>
 
+<br>
+
+<div class="separatorDiv">" "</div>
 
 <!--This filter will show the actors, spouses, and directors who share the religion selected-->
 
 
-<p>Find what Actors, Spouses, and Directors share a particular religion </p>
+<p>Find what Actors, Spouses, and Directors share a particular religion. Only returns results if all three entities have that religion </p>
 
 <div>
 	<form method="post" action="shared_religions.php">
@@ -1026,10 +1322,13 @@ $stmt->close();
 					?>
 				</select>
 		</fieldset>
-		<input type="submit" value="Select Religion" />
+		<input type="submit" value="Show spouses,actors, and directors that all share chosen religion" />
 	</form>
 </div>
 
+<br>
+
+<div class="separatorDiv">" "</div>
 
 <!--This filter will show the films for the chosen actor-->
 
@@ -1060,11 +1359,14 @@ $stmt->close();
 					?>
 				</select>
 		</fieldset>
-		<input type="submit" value="Select Film" />
+		<input type="submit" value="Show Actors working on Film" />
 	</form>
 </div>
 
 
+<br>
+
+<div class="separatorDiv">" "</div>
 
 
 <!--This filter will show the spouse for the chosen actor-->
@@ -1096,7 +1398,7 @@ $stmt->close();
 					?>
 				</select>
 		</fieldset>
-		<input type="submit" value="Select Film" />
+		<input type="submit" value="Show spouse" />
 	</form>
 </div>
 
@@ -1104,6 +1406,9 @@ $stmt->close();
 
 <!--This filter will show the films for the chosen director-->
 
+<br>
+
+<div class="separatorDiv">" "</div>
 
 <p>Find what Director is working on a particular film </p>
 
@@ -1131,7 +1436,7 @@ $stmt->close();
 					?>
 				</select>
 		</fieldset>
-		<input type="submit" value="Select Film" />
+		<input type="submit" value="Show Films for Director" />
 	</form>
 </div>
 
