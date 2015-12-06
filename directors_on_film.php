@@ -13,10 +13,11 @@ $mysqli = new mysqli("oniddb.cws.oregonstate.edu","johnsan7-db","3wuxL63reR1llxB
 <div>
 	<table>
 		<tr>
-			<td>Films for particular Actor</td>
+			<td>Films for particular Director</td>
 		</tr>
 		<tr>
-			<td>Name</td>
+			<td>
+			Director</td>
 			<td>Film</td>
 		</tr>
 		
@@ -24,22 +25,22 @@ $mysqli = new mysqli("oniddb.cws.oregonstate.edu","johnsan7-db","3wuxL63reR1llxB
 
 <?php
 
-if(!($stmt = $mysqli->prepare("SELECT a.fname, a.lname, f.title FROM actor a INNER JOIN film_actor fa ON a.actor_id = fa.aid INNER JOIN film f ON fa.fid=f.film_id WHERE a.actor_id = ?"))){
+if(!($stmt = $mysqli->prepare("SELECT d.fname, d.lname, f.title FROM director d INNER JOIN film_director fd ON fd.did=d.director_id INNER JOIN film f ON f.film_id=fd.fid WHERE f.film_id= ?"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
 
-if(!($stmt->bind_param("i",$_POST['actorFilterInfo']))){
+if(!($stmt->bind_param("i",$_POST['filmDirectorInfo']))){
 	echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 }
 
 if(!$stmt->execute()){
 	echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
-if(!$stmt->bind_result($afname, $alname, $ftitle)){
+if(!$stmt->bind_result($dfname, $dlname, $ftitle)){
 	echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
 while($stmt->fetch()){
- echo "<tr>\n<td>\n" . $afname . $alname . "\n</td>\n<td>\n" . $ftitle . "\n</td>\n</tr>";
+ echo "<tr>\n<td>\n" . $dfname . $dlname . "\n</td>\n<td>\n" . $ftitle . "\n</td>\n</tr>";
 }
 $stmt->close();
 ?>

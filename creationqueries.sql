@@ -69,16 +69,16 @@ CREATE TABLE film_director(
 )ENGINE InnoDB
 
 CREATE TABLE religion_actor(
-	rid int(11) unsigned NOT NULL,
-	aid int(11) unsigned NOT NULL,
+	rid int(11) unsigned  NOT NULL,
+	aid int(11) unsigned UNIQUE NOT NULL,
 	PRIMARY KEY (rid,aid),
 	CONSTRAINT FOREIGN KEY (rid) REFERENCES religion (religion_id) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (aid) REFERENCES actor (actor_id) ON DELETE CASCADE
 )ENGINE InnoDB
 
 CREATE TABLE religion_spouse(
-	rid int(11) unsigned NOT NULL,
-	sid int(11) unsigned NOT NULL,
+	rid int(11) unsigned  NOT NULL,
+	sid int(11) unsigned UNIQUE NOT NULL,
 	PRIMARY KEY (rid,sid),
 	CONSTRAINT FOREIGN KEY (rid) REFERENCES religion (religion_id) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (sid) REFERENCES spouse (spouse_id) ON DELETE CASCADE
@@ -86,8 +86,8 @@ CREATE TABLE religion_spouse(
 
 
 CREATE TABLE religion_director(
-	rid int(11) unsigned NOT NULL,
-	did int(11) unsigned NOT NULL,
+	rid int(11) unsigned  NOT NULL,
+	did int(11) unsigned UNIQUE NOT NULL,
 	PRIMARY KEY (rid,did),
 	CONSTRAINT FOREIGN KEY (rid) REFERENCES religion (religion_id) ON DELETE CASCADE,
 	CONSTRAINT FOREIGN KEY (did) REFERENCES director (director_id) ON DELETE CASCADE

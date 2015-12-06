@@ -13,33 +13,37 @@ $mysqli = new mysqli("oniddb.cws.oregonstate.edu","johnsan7-db","3wuxL63reR1llxB
 <div>
 	<table>
 		<tr>
-			<td>Films for particular Actor</td>
+			<td>Religions shared by actors, spouses, and directors</td>
 		</tr>
 		<tr>
-			<td>Name</td>
-			<td>Film</td>
+			<td>Religion Name</td>
+			<td>Actor</td>
+			<td>Director</td>
+			<td>Spouse</td>
 		</tr>
 		
 
 
 <?php
 
-if(!($stmt = $mysqli->prepare("SELECT a.fname, a.lname, f.title FROM actor a INNER JOIN film_actor fa ON a.actor_id = fa.aid INNER JOIN film f ON fa.fid=f.film_id WHERE a.actor_id = ?"))){
+if(!($stmt = $mysqli->prepare("SELECT  r.name, a.fname, a.lname, s.fname, s.lname, d.fname, d.lname FROM religion_actor ra 
+INNER JOIN religion_director rd ON ra.rid=rd.rid INNER JOIN religion_spouse rs ON rd.rid=rs.rid INNER JOIN actor a ON ra.aid=a.actor_id INNER JOIN spouse s ON s.spouse_id=rs.sid INNER JOIN director d ON rd.did=d.director_id INNER JOIN religion r ON r.religion_id=rd.rid WHERE r.religion_id=?
+"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
 
-if(!($stmt->bind_param("i",$_POST['actorFilterInfo']))){
+if(!($stmt->bind_param("i",$_POST['religionFilterInfo']))){
 	echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
 }
 
 if(!$stmt->execute()){
 	echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
-if(!$stmt->bind_result($afname, $alname, $ftitle)){
+if(!$stmt->bind_result($relName, $afname, $alname, $sfname, $slname, $dfname, $dlname)){
 	echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
 }
 while($stmt->fetch()){
- echo "<tr>\n<td>\n" . $afname . $alname . "\n</td>\n<td>\n" . $ftitle . "\n</td>\n</tr>";
+ echo "<tr>\n<td>\n" . $relName . "\n</td>\n<td>\n" . $afname . ' ' . $alname . "\n</td>\n<td>\n" . $dfname . ' ' . $dlname . "\n</td>\n<td>\n" . $sfname . ' ' . $slname . "\n</td>\n</tr>";
 }
 $stmt->close();
 ?>

@@ -742,7 +742,7 @@ $stmt->close();
 					if(!$stmt->execute()){
 						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
 					}
-					if(!$stmt->bind_result($rid, $afname, $alname)){
+					if(!$stmt->bind_result($aid, $afname, $alname)){
 						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
 					}
 					while($stmt->fetch()){
@@ -963,7 +963,11 @@ $stmt->close();
 </div>
 
 <br>
+
+
 <!--This filter will show movies with a particular actor-->
+
+
 <p>Filter films for a particular actor</p>
 
 <div>
@@ -991,6 +995,150 @@ $stmt->close();
 		<input type="submit" value="submit" />
 	</form>
 </div>
+
+
+<!--This filter will show the actors, spouses, and directors who share the religion selected-->
+
+
+<p>Find what Actors, Spouses, and Directors share a particular religion </p>
+
+<div>
+	<form method="post" action="shared_religions.php">
+		<fieldset>
+			<legend>Religion to get report of directors, spouses, and actors </legend>
+				<select name="religionFilterInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT religion_id, name FROM religion"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($shrid, $name)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $shrid . ' "> ' . $shrid . ' ' . $name  .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Select Religion" />
+	</form>
+</div>
+
+
+<!--This filter will show the films for the chosen actor-->
+
+
+<p>Find what Actors are working on a particular film </p>
+
+<div>
+	<form method="post" action="actors_on_film.php">
+		<fieldset>
+			<legend>Film to get actors for.</legend>
+				<select name="filmActorInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT film_id, title FROM film"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($faid, $ftitle)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $faid . ' "> ' . $faid . ' ' . $ftitle .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Select Film" />
+	</form>
+</div>
+
+
+
+
+<!--This filter will show the spouse for the chosen actor-->
+
+
+<p>Get the spouse married to a particular actor. </p>
+
+<div>
+	<form method="post" action="actor_spouse_lookup.php">
+		<fieldset>
+			<legend>Actor you would like to find spouse for</legend>
+				<select name="actorSpouseLookInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT actor_id, fname, lname FROM actor"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($asfid, $afname, $alname)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $asfid . ' "> ' . $asfid . ' ' . $afname . ' ' . $alname .   '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Select Film" />
+	</form>
+</div>
+
+
+
+<!--This filter will show the films for the chosen director-->
+
+
+<p>Find what Director is working on a particular film </p>
+
+<div>
+	<form method="post" action="directors_on_film.php">
+		<fieldset>
+			<legend>Film to get actors for.</legend>
+				<select name="filmDirectorInfo">
+					<?php
+					if(!($stmt = $mysqli->prepare("SELECT film_id, title FROM film"))){
+						echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
+					}
+					if(!$stmt->execute()){
+						echo "Execute failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					if(!$stmt->bind_result($fdid, $fdtitle)){
+						echo "Bind failed: "  . $mysqli->connect_errno . " " . $mysqli->connect_error;
+					}
+					while($stmt->fetch()){
+					 echo '<option value=" ' . $fdid . ' "> ' . $fdid . ' ' . $fdtitle .  '</option>\n';
+					}
+					$stmt->close();
+
+
+					?>
+				</select>
+		</fieldset>
+		<input type="submit" value="Select Film" />
+	</form>
+</div>
+
+
+
+
+
 
 
 </body>
