@@ -59,3 +59,39 @@ DELETE FROM religion WHERE religion_id=[religion ID input]
 
 INSERT INTO film_actor (aid,fid) VALUES ([actor id input],[film id input])
 
+INSERT INTO actor_marriage (aid,sid) VALUES ([actor id input], [film id input
+
+SELECT a.fname, a.lname, s.fname, s.lname FROM actor a INNER JOIN actor_marriage am ON a.actor_id=am.aid INNER JOIN spouse s ON s.spouse_id=am.sid WHERE a.actor_id=[actor id input]
+
+SELECT a.fname, a.lname, f.title FROM actor a INNER JOIN film_actor fa ON a.actor_id = fa.aid INNER JOIN film f ON fa.fid=f.film_id WHERE a.actor_id = [actor id input]
+
+SELECT a.fname, a.lname, f.title FROM actor a INNER JOIN film_actor fa ON fa.aid=a.actor_id INNER JOIN film f ON f.film_id=fa.fid WHERE f.film_id  = [film id input]
+
+INSERT INTO film_director (did,fid) VALUES ([director id input], [film id input])
+
+INSERT INTO religion_director (rid,did) VALUES ([religion id input], [director id input])
+
+SELECT d.fname, d.lname, f.title FROM director d INNER JOIN film_director fd ON fd.did=d.director_id INNER JOIN film f ON f.film_id=fd.fid WHERE f.film_id = [film id input]
+
+INSERT INTO religion_actor (rid,aid) VALUES ([religion id input],[actor id input])
+
+INSERT INTO religion_spouse (rid,sid) VALUES ([religion id input], [spouse id input])
+
+DELETE FROM film_director WHERE did = [director id input]
+
+DELETE FROM actor_marriage WHERE aid = [actor id input]
+
+DELETE FROM religion_actor WHERE aid = [actor id input]
+
+DELETE FROM religion_director WHERE did = [director id input]
+
+DELETE FROM religion_spouse WHERE sid = [spouse id input]
+
+SELECT  r.name, a.fname, a.lname, s.fname, s.lname, d.fname, d.lname FROM religion_actor ra 
+INNER JOIN religion_director rd ON ra.rid=rd.rid INNER JOIN religion_spouse rs ON rd.rid=rs.rid INNER JOIN actor a ON ra.aid=a.actor_id INNER JOIN spouse s ON s.spouse_id=rs.sid INNER JOIN director d ON rd.did=d.director_id INNER JOIN religion r ON r.religion_id=rd.rid WHERE r.religion_id = [religion id input]
+
+DELETE FROM film_actor WHERE aid=[actor id input]&&fid=[film id input]
+
+
+
+

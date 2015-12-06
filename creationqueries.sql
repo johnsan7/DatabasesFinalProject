@@ -31,7 +31,7 @@ CREATE TABLE film(
 	film_id int(11) unsigned NOT NULL AUTO_INCREMENT,
 	title varchar(45) NOT NULL,
 	budget numeric(13,2),
-	exp_release DATE NOT NULL,
+	exp_release DATE,
 	PRIMARY KEY (film_id)
 )ENGINE=InnoDB
 
