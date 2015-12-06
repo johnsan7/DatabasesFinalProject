@@ -988,23 +988,9 @@ $stmt->close();
 					?>
 				</select>
 		</fieldset>
-		<input type="submit" value="Run Filter" />
+		<input type="submit" value="submit" />
 	</form>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </body>
