@@ -61,7 +61,7 @@ CREATE TABLE film_actor(
 
 
 CREATE TABLE film_director(
-	did int(11) unsigned UNIQUE NOT NULL,
+	did int(11) unsigned  NOT NULL,
 	fid int(11) unsigned UNIQUE NOT NULL,
 	PRIMARY KEY (did,fid),
 	CONSTRAINT FOREIGN KEY (did) REFERENCES director (director_id) ON DELETE CASCADE,

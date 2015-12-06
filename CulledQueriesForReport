@@ -1,0 +1,61 @@
+Queries picked out for report:
+
+Used many times to show what table currently contains so user can run other operations.
+
+SELECT actor.fname, actor.lname, actor.bdate  FROM actor
+
+SELECT spouse.fname, spouse.lname, spouse.bdate  FROM spouse
+
+SELECT director.fname, director.lname, director.bdate  FROM director
+
+SELECT film.title, film.budget, film.exp_release  FROM film
+
+SELECT religion.name, religion.foundingDate FROM religion
+
+SELECT a.fname, a.lname, f.title  FROM film_actor fa INNER JOIN film f ON f.film_id = fa.fid INNER JOIN actor a ON fa.aid=a.actor_id
+
+SELECT d.fname, d.lname, f.title  FROM film_director fd INNER JOIN film f ON f.film_id = fd.fid INNER JOIN director d ON fd.did=d.director_id
+
+SELECT a.fname, a.lname, s.fname, s.lname  FROM actor_marriage am INNER JOIN actor a ON a.actor_id = am.aid INNER JOIN spouse s ON am.sid=s.spouse_id
+
+SELECT d.fname, d.lname, r.name  FROM religion_director rd INNER JOIN director d ON d.director_id = rd.did INNER JOIN religion r ON rd.rid=r.religion_id
+
+SELECT s.fname, s.lname, r.name  FROM religion_spouse rs INNER JOIN spouse s ON s.spouse_id = rs.sid INNER JOIN religion r ON rs.rid=r.religion_id
+
+
+Used many times to create spouse drop down for selection
+
+SELECT actor_id, fname, lname FROM actor
+
+SELECT spouse_id, fname, lname FROM spouse
+
+SELECT director_id, fname, lname FROM director
+
+SELECT film_id, title FROM film
+
+SELECT religion_id, name FROM religion
+
+Queries used in Filters, adds, deletes etc.
+
+INSERT INTO actor (fname, lname, bdate) VALUES ([firstname input],[lastname input],[birtdate input])
+
+INSERT INTO director (fname, lname, bdate) VALUES ([firstname input],[lastname input],[birtdate input])
+
+INSERT INTO film (title, budget, exp_release) VALUES ([title input],[budget input],[releaseDate input])
+
+INSERT INTO spouse (fname, lname, bdate) VALUES ([firstname input],[lastname input],[birtdate input])
+
+DELETE FROM actor WHERE actor_id[actor id input]
+
+DELETE FROM spouse WHERE spouse_id=[spouse id input]
+
+DELETE FROM director WHERE director_id=[director id input]
+
+DELETE FROM film WHERE film_id=[film id input]
+
+INSERT INTO religion (name, foundingDate) VALUES ([name input, founding date input?)
+
+DELETE FROM religion WHERE religion_id=[religion ID input]
+
+INSERT INTO film_actor (aid,fid) VALUES ([actor id input],[film id input])
+
