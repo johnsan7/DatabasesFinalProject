@@ -20,7 +20,7 @@ $mysqli = new mysqli("oniddb.cws.oregonstate.edu","wolfordj-db","jC39X2rJKFt9prb
 			<td>Film</td>
 		</tr>
 <?php
-if(!($stmt = $mysqli->prepare("SELECT a.fname, a.lname, f.title FROM actor a INNER JOIN film_actor fa ON a.actor_id = fa.aid INNER JOIN film f ON fa.fid=f.film_id WHERE a.actor_id = ?"))){
+if(!($stmt = $mysqli->prepare("SELECT a.fname, a.lname, f.title FROM actor a INNER JOIN film_actor fa ON a.actor_id = fa.aid INNER JOIN film f ON fa.fid=f.film_id WHERE a.actor_id = ?;"))){
 	echo "Prepare failed: "  . $stmt->errno . " " . $stmt->error;
 }
 
